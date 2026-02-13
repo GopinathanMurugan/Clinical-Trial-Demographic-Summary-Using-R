@@ -1,0 +1,87 @@
+---
+title: "R Project - Summarising continuous and categorical data"
+author: "Gopinathan M"
+date: '`r Sys.Date()`'
+output: word_document
+---
+# Build familiary with R coding & generate counts and Percentanges of categorical Variable by gender 
+
+In this project we are working towards creating a demography summary table 
+
+## Aims 
+
+- Read in ADSL SAS dataset
+
+- Subset for Efficacy Analysis population
+
+- Count Observations within grouping varibale and calculate Percentages of table N
+
+- Transpose The resulting data to Prepare for tabulation
+
+## Data Source 
+
+- https://github.com/phuse-org/phuse-scripts/tree/master/data/adam/cdisc 
+
+## Read with Library
+```{r}
+library(tidyverse)
+library(rio)
+```
+## Read the dataset for Analysis 
+```{r}
+adsl = import("https://github.com/phuse-org/phuse-scripts/raw/master/data/adam/cdisc/adsl.xpt")
+head(adsl,5)
+```
+```{r}
+adsl_eff = adsl %>%
+  filter(EFFFL == "Y")
+head(adsl_eff,5)
+```
+```{r}
+adsl_eff %>%
+  group_by(TRT01A) %>%
+  count(name = "N")
+```
+```{r}
+big_N_count = adsl_eff %>%
+  group_by(TRT01AN, TRT01A) %>%
+  count(name = "N")
+big_N_count
+```
+```{r}
+small_n_cnt = adsl_eff %>%
+  group_by(TRT01AN,TRT01A,SEX) %>%
+  count(name = 'n')
+small_n_cnt
+```
+```{r}
+adsl_mrg_cnt = small_n_cnt %>%
+  left_join(big_N_count)
+adsl_mrg_cnt
+```
+
+```{r}
+small_n_cnt %>%
+  left_join(big_N_count, by = c("TRT01A", "TRT01AN"))
+```
+
+```{r}
+library(dplyr)
+adsl_mrg_cnt %>%
+  mutate(perc = round((n/N)*100, digits=1)) %>%
+  mutate(perc_char = format(perc, nsmall=1)) %>%
+  mutate(npct = paste(n, 
+                      paste0( "(", perc_char, ")" ) 
+                      ) 
+         ) %>%
+  mutate(SEX = recode(SEX, 
+                      "M" = "Male",
+                      "F" = "Female"))
+```
+
+
+
+```
+
+
+
