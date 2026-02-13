@@ -122,4 +122,4 @@ Gopinathan M\
 M.Sc. Statistics\
 Clinical Data \| Biostatistics \| R Programming
 
-Email: au190225@gmail.com
+Email: gopinathan.stat@gmail.com
