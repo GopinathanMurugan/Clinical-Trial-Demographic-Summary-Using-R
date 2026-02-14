@@ -5,7 +5,7 @@
 This project demonstrates clinical trial data manipulation, demographic
 tabulation, and percentage derivation using R.
 
-Using a CDISC ADaM ADSL dataset, I generated a demographic summary table
+Using a CDISC  ADaM ADSL dataset, I generated a demographic summary table
 (Sex by Treatment Group) for the Efficacy population. The workflow
 mirrors real-world clinical programming tasks performed in regulatory
 reporting environments.
